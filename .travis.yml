@@ -1,0 +1,4 @@
+sudo: required
+language: golang/1.12
+script:
+- bash ./build_all_platforms.sh
