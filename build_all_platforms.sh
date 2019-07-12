@@ -1,3 +1,10 @@
+echo "Setting Bash strict mode"
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -e
+set -u
+set -o pipefail
+echo 
+
 echo "Supported distributions:"
 go tool dist list
 echo
@@ -35,5 +42,6 @@ echo "Building MacOS"
 GOOS=darwin GOARCH=amd64 go build -o build/ead-macos-x86-64
 GOOS=darwin GOARCH=386 go build -o build/ead-macos-x86-32
 
+echo
 echo "Finished artifacts:"
 ls -la ./build
