@@ -10,7 +10,8 @@ import (
 
 var colorsFlag = flag.Bool("colors", false, "enable logger's colors (disabled by default)")
 var outputAuxiliaryFlag = flag.Bool("output_uxiliary", true, "output miscalenialous supporting files, not just raw data")
-var sourceDirFlag = flag.String("source", "", "source directory where the binary files will be fetch from (by default it's the current working directory"+SLASHES_HELP+")")
+var sourceDirFlag = flag.String("source", "", "source directory where the binary files will be fetch from (when the source_current_folder is set true then by default it's the current working directory"+SLASHES_HELP+")")
+var sourceCurrentFlag = flag.Bool("source_current_folder", false, "allow to use the curent working directory as your source (disabled by default)")
 var outputDirFlag = flag.String("output", "", "output directory where the C and H files will be saved to (by default it's the parent directory of the sourceDir"+SLASHES_HELP+")")
 var outputContainerFlag = flag.String("output_container", "data_root_include", "Under what container folder inside the output directory will the data-only part be stored")
 

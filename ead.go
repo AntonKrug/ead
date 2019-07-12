@@ -145,7 +145,11 @@ func setupPaths() {
 	cwd, err := os.Getwd()
 	checkErr(err)
 	if sourceDir == "" {
-		sourceDir = filepath.Clean(cwd)
+		if *sourceCurrentFlag {
+			sourceDir = filepath.Clean(cwd)
+		} else {
+			log.Fatal(au.Red("You can't use current working directory as source directory without specifying -source_current_folder argument, run -h for help"))
+		}
 	}
 	sourceDir = filepath.ToSlash(sourceDir)
 
