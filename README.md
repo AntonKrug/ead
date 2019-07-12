@@ -10,8 +10,10 @@
   ```
 - Download this project with `go get github.com/antonkrug/ead` ("undefined: Assets" error is expected as the `go generate` was not run yet)
 - Go into the project:
--   On Windows: `cd %GOPATH%/src/github.com/antonkrug/ead`
--   On Linux: `cd $GOPATH/src/github.com/antonkrug/ead`
+  - On Windows: `cd %GOPATH%/src/github.com/antonkrug/ead`
+  - On Linux: `cd $GOPATH/src/github.com/antonkrug/ead`
 
 - Generate vfsdata `go generate`
-- Build the final binary `go build`
+- Build the project
+  - Build the final native binary `go build`
+  - To build all other platforms run `bash ./build_all_platforms.sh` (Tested on Linux and on Windows under GitBash command line)
