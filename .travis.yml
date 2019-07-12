@@ -1,6 +1,11 @@
 sudo: required
-language: golang:1.12
+language: go
+
+go:
+  - "1.12"
+
 install:
   - go get -d github.com/antonkrug/ead
+  
 script:
   - bash ./build_all_platforms.sh
