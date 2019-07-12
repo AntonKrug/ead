@@ -3,7 +3,12 @@ echo "Setting Bash strict mode"
 set -e
 set -u
 set -o pipefail
-echo 
+echo
+
+echo "Go version and enviroment"
+go version
+go env
+echo
 
 echo "Supported distributions:"
 go tool dist list
