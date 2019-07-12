@@ -1,6 +1,11 @@
+echo "Supported distributions:"
 go tool dist list
+echo
 
 mkdir build
+
+echo "Generating  assets"
+go generate
 
 echo "Building Windows"
 GOOS=windows GOARCH=amd64 go build -o build/ead-windows-x86-64.exe
@@ -14,10 +19,12 @@ GOOS=linux GOARCH=arm64 go build -o build/ead-linux-arm-64
 GOOS=linux GOARCH=arm go build -o build/ead-linux-arm-32
 
 echo "Building FreeBSD"
-GOOS=freebsd GOARCH=amd64 go build -x -o build/ead-freebsd-x86-64
-GOOS=freebsd GOARCH=386 go build -x -o build/ead-freebsd-x86-32
+GOOS=freebsd GOARCH=amd64 go build -o build/ead-freebsd-x86-64
+GOOS=freebsd GOARCH=386 go build -o build/ead-freebsd-x86-32
 
 echo "Building MacOS"
 GOOS=darwin GOARCH=amd64 go build -o build/ead-macos-x86-64
 GOOS=darwin GOARCH=386 go build -o build/ead-macos-x86-32
 
+echo "Finished artifacts:"
+ls -la ./build
