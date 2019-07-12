@@ -2,10 +2,19 @@ echo "Supported distributions:"
 go tool dist list
 echo
 
-mkdir build
+echo "Installing depedencies"
+go get github.com/logrusorgru/aurora
+go get github.com/gabriel-vasile/mimetype
+go get github.com/hoisie/mustache
+go get github.com/shurcooL/vfsgen
 
 echo "Generating  assets"
 go generate
+
+echo "Creating clean build folder"
+mkdir -p build
+rm -r ./build
+mkdir -p build
 
 echo "Building Windows"
 GOOS=windows GOARCH=amd64 go build -o build/ead-windows-x86-64.exe
