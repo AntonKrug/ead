@@ -23,6 +23,12 @@
 
 bool ead_find_entry(const char *location, ead_item_t *item)
 {
+    if ('/' == *location)
+    {
+        /* Do ignore the / for paths starting with it */
+        location++;
+    }
+
     for (int file = 0; file < STATIC_DATA_INDEX_SIZE; ++file)
     {
         if (strcmp(location, static_data_index[file].location) == 0)
