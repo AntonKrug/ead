@@ -1,0 +1,5 @@
+/{{CONTAINER_FOLDER}}/*
+/ead_collection.h
+/ead_helpers.c
+/ead_helpers.h
+/ead_structures.h
