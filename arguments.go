@@ -8,6 +8,8 @@ import (
 	"os"
 )
 
+var compressHtmlFlag = flag.Bool("compress_web", false, "compress web related files: html/htm/js/css (disabled by default)")
+
 var colorsFlag = flag.Bool("colors", false, "enable logger's colors (disabled by default)")
 var outputAuxiliaryFlag = flag.Bool("output_uxiliary", true, "output miscalenialous supporting files, not just raw data")
 var sourceDirFlag = flag.String("source", "", "source directory where the binary files will be fetch from (when the source_current_folder is set true then by default it's the current working directory"+SLASHES_HELP+")")

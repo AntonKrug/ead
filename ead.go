@@ -4,7 +4,10 @@ package main
 
 import (
 	"bufio"
+	"bytes"
+	"compress/gzip"
 	"encoding/hex"
+	"github.com/dustin/go-humanize"
 	"github.com/gabriel-vasile/mimetype"
 	"github.com/hoisie/mustache"
 	"io/ioutil"
@@ -53,6 +56,18 @@ func readFileEmbedded(filename string) (wholecontent string, size int64) {
 	return
 }
 
+func isWebExtension(filename string) bool {
+	supportedExtension := map[string]bool{
+		"html": true,
+		"htm":  true,
+		"js":   true,
+		"css":  true,
+	}
+
+	ext := filepath.Ext(filename) // Get extension including the dot ".html"
+	return supportedExtension[ext[1:]]
+}
+
 func readFileReal(filename string) (wholecontent string, size int64) {
 	content, err := ioutil.ReadFile(filename)
 	checkErr(err)
@@ -61,6 +76,26 @@ func readFileReal(filename string) (wholecontent string, size int64) {
 	stats, err3 := os.Stat(filename)
 	checkErr(err3)
 	size = stats.Size()
+
+	if *compressHtmlFlag && isWebExtension(filename) {
+		var buf bytes.Buffer
+		var gz *gzip.Writer
+		gz, err = gzip.NewWriterLevel(&buf, gzip.BestCompression)
+
+		_, err = gz.Write([]byte(wholecontent))
+		checkErr(err)
+
+		err = gz.Flush()
+		checkErr(err)
+
+		err = gz.Close()
+		checkErr(err)
+
+		log.Println("Compressed file", filename, "from", humanize.Bytes(uint64(size)), "to", humanize.Bytes(uint64(buf.Len())))
+
+		wholecontent = string(buf.Bytes())
+		size = int64(buf.Len())
+	}
 
 	return
 }
@@ -111,6 +146,10 @@ func applyTemplateStandalone(contentName string, templateName string) (ret strin
 	dictionary["WEB_CONTENT_ENCODING"] = "EAD_CONTENT_ENCODING_NONE"
 	dictionary["CONTENT-TYPE"] = strings.TrimSpace(strings.Split(mine, ";")[0]) // cut everything after ;
 	dictionary["DATA_CONTENT_HEX_DUMP"] = producePrettyHex(wholecontent)
+
+	if isWebExtension(contentName) {
+		dictionary["WEB_CONTENT_ENCODING"] = "EAD_CONTENT_ENCODING_GZIP"
+	}
 
 	ret = mustache.Render(template, dictionary)
 
@@ -262,6 +301,10 @@ func main() {
 	}
 
 	setupPaths()
+
+	if *compressHtmlFlag {
+		log.Println("Web compression enabled, will gzip the following file extension: js,html,htm,css")
+	}
 
 	generateWholeDirectory()
 	if *outputAuxiliaryFlag {

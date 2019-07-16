@@ -19,6 +19,7 @@ go get github.com/logrusorgru/aurora
 go get github.com/gabriel-vasile/mimetype
 go get github.com/hoisie/mustache
 go get github.com/shurcooL/vfsgen
+go get github.com/dustin/go-humanize
 
 echo "Generating  assets"
 go generate
