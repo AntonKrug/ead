@@ -132,10 +132,30 @@ func producePrettyHex(input string) (ret string) {
 	}
 }
 
+func fixContentType(filename string) (ret string) {
+	ret = strings.TrimSpace(strings.Split(mine, ";")[0]) // cut everything after ;
+
+	supportedExtension := map[string]string{
+		"txt": "text/plain",
+		"js":  "text/javascript",
+		"css": "text/css",
+	}
+
+	ext := filepath.Ext(filename)[1:] // Get extension excluding the dot ".html"
+
+	if val, ok := supportedExtension[ext]; ok {
+		// if we have replacement for the extension, use it
+		ret = val
+	}
+
+	return
+}
+
 func applyTemplateStandalone(contentName string, templateName string) (ret string, nameMetadata string, nameFinal string) {
 	template, _ := readFileEmbedded(templateName)
 	wholecontent, size := readFileReal(contentName)
 	mine, _, _ := mimetype.DetectFile(contentName)
+	mineFixed := fixContentType(mine)
 	nameHeader, nameData, nameMetadata, nameFinal := allSafeNames(contentName)
 
 	dictionary["FILENAME_H"] = nameHeader
@@ -144,7 +164,7 @@ func applyTemplateStandalone(contentName string, templateName string) (ret strin
 	dictionary["ORIGINAL_PATH"] = contentName
 	dictionary["DATA_SIZE"] = strconv.FormatInt(size, 10)
 	dictionary["WEB_CONTENT_ENCODING"] = "EAD_CONTENT_ENCODING_NONE"
-	dictionary["CONTENT-TYPE"] = strings.TrimSpace(strings.Split(mine, ";")[0]) // cut everything after ;
+	dictionary["CONTENT-TYPE"] = mineFixed
 	dictionary["DATA_CONTENT_HEX_DUMP"] = producePrettyHex(wholecontent)
 
 	if isWebExtension(contentName) {
