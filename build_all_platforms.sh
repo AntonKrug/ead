@@ -53,4 +53,4 @@ GOOS=darwin GOARCH=386 go build -o release/ead-macos-x86-32-$TS
 
 echo
 echo "Finished artifacts:"
-ls -la ./build
+ls -la ./release
