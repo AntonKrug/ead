@@ -132,7 +132,7 @@ func producePrettyHex(input string) (ret string) {
 	}
 }
 
-func fixContentType(filename string) (ret string) {
+func fixContentType(filename string, mine string) (ret string) {
 	ret = strings.TrimSpace(strings.Split(mine, ";")[0]) // cut everything after ;
 
 	supportedExtension := map[string]string{
@@ -155,7 +155,7 @@ func applyTemplateStandalone(contentName string, templateName string) (ret strin
 	template, _ := readFileEmbedded(templateName)
 	wholecontent, size := readFileReal(contentName)
 	mine, _, _ := mimetype.DetectFile(contentName)
-	mineFixed := fixContentType(mine)
+	mineFixed := fixContentType(contentName, mine)
 	nameHeader, nameData, nameMetadata, nameFinal := allSafeNames(contentName)
 
 	dictionary["FILENAME_H"] = nameHeader
