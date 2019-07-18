@@ -6,6 +6,31 @@ go:
 
 install:
   - go get -d github.com/antonkrug/ead
+
+env:
+  global:
+    # Setting timestamp
+    - TS=$(date +"%Y%m%d-%H%M%S")
   
 script:
   - bash ./build_all_platforms.sh
+
+deploy:
+  provider: releases
+  api_key:
+    secure: Vw9tdbMaZKXMIj17nclFd17QWdLYByY/rl78n67EYkMhhbK0S+xz2p7PKsk+TZE3r12XVaglns07muH/nYqL04qLaVW+VDKVaVM0o6wvSOU7FNxxOf3M8H3zKZuoCs8AKYZ3LGATQwcxB0qqEd0Km3TodxhTQYVYkTPIOR2O9Z74+L+EjMI6Q6pYTJUnXuJNdpb+ZngjgaYtuaOmnynbpH4FeruZ9Nr9dCn5onRkDRNOU4c7c3DUI5Zcz5fQxXa1n5X3S/nG41UD/2n5CTaxHI6vyp2au4+YWPwXub+M4hvWNQ+hwyWFXjnkqAnEcYZdzcfQTrYOEdVYDHDXgrvUHf/w5xDGrbBWZtkHBmLSgnvHlGs9DzacU3DkExT78xVQx6G2Q9H85Cz9PFfYJ2D16nH9NG1wUndcqtMPct3BvdeA7pSHwbKAybgrG6OQtjhcYgRk6LKPUJnu4uohzo9BqVHVVTkah2iRHsc7cswRUXElyl4vSb20UFo1rAdedM7lQWXPTiazmq5L57/chwfrdKHa54Zvy8utsDMCeO/TRMVilibphcd1yP2gucBts+gygr4GOP8soNOewBdHAWzVtqLkW3IKjkNBFdz8CHBmsd+pmBUX17LfQFcGYeI/a+TZ2l/s3tKTVmzZ9CA8e+81LC7xGsaImRwuvGZgPYKvVJo=
+  file:
+    - "release/ead-windows-x86-64-$TS.exe"
+    - "release/ead-windows-x86-32-$TS.exe"
+    - "release/ead-windows-arm-$TS.exe"
+    - "release/ead-linux-x86-64-$TS"
+    - "release/ead-linux-x86-32-$TS"
+    - "release/ead-linux-arm-64-$TS"
+    - "release/ead-linux-arm-32-$TS"
+    - "release/ead-freebsd-x86-64-$TS"
+    - "release/ead-freebsd-x86-32-$TS"
+    - "release/ead-macos-x86-64-$TS"
+    - "release/ead-macos-x86-32-$TS"
+  skip_cleanup: true
+  on:
+    tags: true
