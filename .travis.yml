@@ -2,24 +2,29 @@ sudo: required
 language: go
 
 go:
+  # Older versions do not support as many targets
   - "1.12"
 
 install:
+  # I'm including myself and the current fetched repository is in different path while the project is expected in the GOPATH
   - go get -d github.com/antonkrug/ead
 
 env:
   global:
-    # Setting timestamp
+    # Setting timestamp globaly so then the build script can inherit it and I will know what exact filename it will produce
     - TS=$(date +"%Y%m%d-%H%M%S")
   
 script:
   - bash ./build_all_platforms.sh
 
 deploy:
+# Deploy to GitHub Releases page
   provider: releases
   api_key:
+# Got github's 0auth "Personal access tokens", allowed it proper scopes for the 'repo:' and ecnrypted it with 'travis encrypt -r antonkrug/ead <KEY>'
     secure: n5Ob15v9c1NZJ5OEBNw5gqYvvpLq8FIfHehKRIirznLi2+SKBmI2GTePz66euY8+7s2x+IdyekaJbkd2Mnf79dy92XB52tkJKLdceOj2b+19nMzbjYGZdNzXjF/wv75LE7VIaBKfNUArNcO0TIQc67mhpBVNyxn37SuC8PK8ImI7Vkje6B04IpNrwyGIxrQ2uQPP8VcI2Y+ZmIAU24ESsrWdJrAvO27oahqgdcckd0jy/xt8uhGX3W5v5Y2MO5hVr/I4bTjpaEFOJpveGBBZtgKKivdP9nU3MXbnEmkCS+VQlXLAJSOCAT4ZFRgBw8C/VWmLjej2XAa2rCPy2LubYwi4O2SaFCh/8YYd1RLbFj5QFQ1xtvqIxWi+ZcJAOaz+/IuMtGNIh5GPX89aTpq2OOsOGnQb1nV5aAAimbpvxj2xLp4ULxsisw5okeLdcPUYeahG3knw69g5pn9CIfOPvxnI3Up0/d697FjsqJT+XDopkFoUUHHyO47V2tpFUkhzHJYqJtRAJxkyMQH0UgdPA0rbNcV2j9tmju9GjcA+jWgyTJzydAn7Ajjxai+c/dZ2wbcBTlwBY0cwWRZDwEPJTDkOydncKrUJo94YBuVSVCVUY6sAFb/RVxJM0oBuPJTXw84T6RI45ceHTBTft3mvNhErUMGwxs6vfkuQx+AuFM0=
   file:
+# These files match up with the results from build_all_platforms.sh because it uses the enviroment variable TS for the timestamp as default
     - "release/ead-windows-x86-64-$TS.exe"
     - "release/ead-windows-x86-32-$TS.exe"
     - "release/ead-windows-arm-$TS.exe"
@@ -33,4 +38,5 @@ deploy:
     - "release/ead-macos-x86-32-$TS"
   skip_cleanup: true
   on:
+  # Trigger this deploy action only on the tagged commits
     tags: true
