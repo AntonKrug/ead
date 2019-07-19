@@ -193,7 +193,7 @@ func generateFile(contentName string) {
 	err := ioutil.WriteFile(finalPath, []byte(content), 0664)
 	checkErr(err)
 
-	log.Println("Generated include file for ", au.Green(contentName), "")
+	log.Println("Generated include file for", au.Green(contentName))
 
 	ead_files = append(ead_files, ead_file{metadata: metadata, filename: filename})
 }
