@@ -18,3 +18,8 @@
 - Build the project
   - Build the final native binary `go build`
   - To build all other platforms run `bash ./build_all_platforms.sh` (Tested on Linux and on Windows under GitBash command line)
+
+Note: If it's required to only corssbuild from Windows to Linux and then copy it into a shared VM folder then the following can be used:
+```
+GOOS=linux GOARCH=amd64 go build -o release/ead-linux-x86-64 && cp release/ead-linux-x86-64 /d/VMs/_shared_folder/ead
+```
