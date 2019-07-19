@@ -6,7 +6,7 @@ go:
   - "1.12"
 
 install:
-  # I'm including myself and the current fetched repository is in different path while the project is expected in the GOPATH
+  # I'm fetching myself. In travis the current fetched repository is in different path while the golang expects the project in the GOPATH because the project imports itself and is then looked up inside the GOPATH
   - go get -d github.com/antonkrug/ead
 
 env:
