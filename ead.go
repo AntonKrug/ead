@@ -66,9 +66,12 @@ func fixContentType(filename string, mine string) (ret string) {
 	ret = strings.TrimSpace(strings.Split(mine, ";")[0]) // cut everything after ;
 
 	supportedExtension := map[string]string{
-		"txt": "text/plain",
-		"js":  "text/javascript",
-		"css": "text/css",
+		"txt":  "text/plain",
+		"js":   "text/javascript",
+		"css":  "text/css",
+		"wasm": "application/wasm",
+		"xml":  "text/xml",
+		"json": "application/json",
 	}
 
 	ext := filepath.Ext(filename)[1:] // Get extension excluding the dot ".html"
