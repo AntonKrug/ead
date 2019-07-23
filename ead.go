@@ -93,6 +93,7 @@ func applyTemplateStandalone(contentName string, templateName string) (ret strin
 
 	dictionary["FILENAME_H"] = nameHeader
 	dictionary["EAD_FILENAME_VARIABLE"] = nameData
+	dictionary["EAD_FILENAME_VARIABLE_ALL_CAPS"] = strings.ToUpper(nameData)
 	dictionary["EAD_FILENAME_VARIABLE_METADATA"] = nameMetadata
 	dictionary["ORIGINAL_PATH"] = contentName
 	dictionary["DATA_SIZE"] = strconv.FormatInt(size, 10)
@@ -114,7 +115,16 @@ func getFinalOutputPath(filename string) string {
 }
 
 func generateFile(contentName string) {
-	content, metadata, filename := applyTemplateStandalone(contentName, "data.h")
+	var templateSource string
+
+	if *standaloneFiles {
+		templateSource = "data_no_meta.h"
+	} else {
+		templateSource = "data.h"
+	}
+
+	content, metadata, filename := applyTemplateStandalone(contentName, templateSource)
+
 	finalPath := getFinalOutputPath(filename)
 
 	writeContentToFile(finalPath, content)
@@ -242,7 +252,8 @@ func main() {
 	}
 
 	generateWholeDirectory()
-	if *outputAuxiliaryFlag {
+
+	if *outputAuxiliaryFlag && !*standaloneFiles {
 		log.Println("Generating axialary files, all existing files will not get overriden except the ead_collection.h")
 		generateAuxialaryFiles()
 	}
