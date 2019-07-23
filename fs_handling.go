@@ -43,7 +43,7 @@ func readFileReal(filename string) (wholecontent string, size int64) {
 	checkErr(err3)
 	size = stats.Size()
 
-	if *compressHtmlFlag && isWebExtension(filename) {
+	if *compressHtmlFlag && isCompressableExtension(filename) {
 		var buf bytes.Buffer
 		var gz *gzip.Writer
 		gz, err = gzip.NewWriterLevel(&buf, gzip.BestCompression)
@@ -91,12 +91,15 @@ func fileIsRealFile(filename string) bool {
 	return !fileInfo.IsDir()
 }
 
-func isWebExtension(filename string) bool {
+func isCompressableExtension(filename string) bool {
 	supportedExtension := map[string]bool{
 		"html": true,
 		"htm":  true,
 		"js":   true,
 		"css":  true,
+		"wasm": true,
+		"xml":  true,
+		"json": true,
 	}
 
 	ext := filepath.Ext(filename) // Get extension including the dot ".html"

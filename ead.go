@@ -100,7 +100,7 @@ func applyTemplateStandalone(contentName string, templateName string) (ret strin
 	dictionary["CONTENT-TYPE"] = mineFixed
 	dictionary["DATA_CONTENT_HEX_DUMP"] = producePrettyHex(wholecontent)
 
-	if isWebExtension(contentName) {
+	if isCompressableExtension(contentName) {
 		dictionary["WEB_CONTENT_ENCODING"] = "EAD_CONTENT_ENCODING_GZIP"
 	}
 
