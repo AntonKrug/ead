@@ -3,11 +3,7 @@
 package main
 
 import (
-	"bufio"
-	"bytes"
-	"compress/gzip"
 	"encoding/hex"
-	"github.com/dustin/go-humanize"
 	"github.com/gabriel-vasile/mimetype"
 	"github.com/hoisie/mustache"
 	"io/ioutil"
@@ -32,72 +28,6 @@ func checkErr(err error) {
 	if err != nil {
 		log.Fatal(au.Red(err))
 	}
-}
-
-func readFileEmbedded(filename string) (wholecontent string, size int64) {
-	file, err := Assets.Open("/" + filename)
-	checkErr(err)
-
-	stats, err2 := file.Stat()
-	checkErr(err2)
-	defer file.Close()
-
-	size = stats.Size()
-
-	var filecontent []string
-
-	scanner := bufio.NewScanner(file)
-
-	for scanner.Scan() {
-		filecontent = append(filecontent, scanner.Text())
-	}
-
-	wholecontent = strings.Join(filecontent, NEW_LINE)
-	return
-}
-
-func isWebExtension(filename string) bool {
-	supportedExtension := map[string]bool{
-		"html": true,
-		"htm":  true,
-		"js":   true,
-		"css":  true,
-	}
-
-	ext := filepath.Ext(filename) // Get extension including the dot ".html"
-	return supportedExtension[ext[1:]]
-}
-
-func readFileReal(filename string) (wholecontent string, size int64) {
-	content, err := ioutil.ReadFile(filename)
-	checkErr(err)
-	wholecontent = string(content)
-
-	stats, err3 := os.Stat(filename)
-	checkErr(err3)
-	size = stats.Size()
-
-	if *compressHtmlFlag && isWebExtension(filename) {
-		var buf bytes.Buffer
-		var gz *gzip.Writer
-		gz, err = gzip.NewWriterLevel(&buf, gzip.BestCompression)
-
-		_, err = gz.Write([]byte(wholecontent))
-		checkErr(err)
-
-		err = gz.Flush()
-		checkErr(err)
-
-		err = gz.Close()
-		checkErr(err)
-
-		log.Println("Compressed file", filename, "from", humanize.Bytes(uint64(size)), "to", humanize.Bytes(uint64(buf.Len())))
-
-		wholecontent = string(buf.Bytes())
-		size = int64(buf.Len())
-	}
-
-	return
 }
 
 func convertToSafeName(original string) (ret string) {
@@ -176,11 +106,6 @@ func applyTemplateStandalone(contentName string, templateName string) (ret strin
 	return
 }
 
-func makePathRecursive(path string) {
-	basepath := filepath.Dir(path)
-	os.MkdirAll(basepath, os.ModePerm)
-}
-
 func getFinalOutputPath(filename string) string {
 	return filepath.ToSlash(filepath.Join(outputDir, *outputContainerFlag, filename))
 }
@@ -189,10 +114,7 @@ func generateFile(contentName string) {
 	content, metadata, filename := applyTemplateStandalone(contentName, "data.h")
 	finalPath := getFinalOutputPath(filename)
 
-	makePathRecursive(finalPath)
-	err := ioutil.WriteFile(finalPath, []byte(content), 0664)
-	checkErr(err)
-
+	writeContentToFile(finalPath, content)
 	log.Println("Generated include file for", au.Green(contentName))
 
 	ead_files = append(ead_files, ead_file{metadata: metadata, filename: filename})
@@ -237,20 +159,6 @@ func setupPaths() {
 	for _, directory := range directories {
 		os.RemoveAll(getFinalOutputPath(directory.Name()))
 	}
-}
-
-func fileExists(filename string) bool {
-	_, err := os.Stat(filename)
-	if os.IsNotExist(err) {
-		return false
-	}
-	return err == nil
-}
-
-func fileIsRealFile(filename string) bool {
-	fileInfo, err := os.Stat(filename)
-	checkErr(err)
-	return !fileInfo.IsDir()
 }
 
 func generateWholeDirectory() {
