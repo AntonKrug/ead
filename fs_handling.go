@@ -34,13 +34,17 @@ func readFileEmbedded(filename string) (wholecontent string, size int64) {
 	return
 }
 
-func readFileReal(filename string) (wholecontent string, size int64) {
+func readFileRealRawToString(filename string) string {
 	content, err := ioutil.ReadFile(filename)
 	checkErr(err)
-	wholecontent = string(content)
+	return string(content)
+}
 
-	stats, err3 := os.Stat(filename)
-	checkErr(err3)
+func readFileReal(filename string) (wholecontent string, size int64) {
+	wholecontent = readFileRealRawToString(filename)
+
+	stats, err := os.Stat(filename)
+	checkErr(err)
 	size = stats.Size()
 
 	if *compressHtmlFlag && isCompressableExtension(filename) {

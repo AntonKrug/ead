@@ -231,6 +231,10 @@ func main() {
 		"CONTAINER_FOLDER":   *outputContainerFlag,
 	}
 
+	if *customCopyrightFlag != "" {
+		dictionary["COPYRIGHT"] = readFileRealRawToString(*customCopyrightFlag)
+	}
+
 	setupPaths()
 
 	if *compressHtmlFlag {
