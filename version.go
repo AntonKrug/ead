@@ -1,3 +1,3 @@
 package main
 
-const EAD_VERSION string = "0.5.7"
+const EAD_VERSION string = "0.6.0"
