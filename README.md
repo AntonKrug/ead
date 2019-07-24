@@ -30,7 +30,7 @@ If different auxiliary files are provided or for some other reason they were mod
 
 If this is too intrusive and only hex-dumps without metadata are needed, then use **-standalone_files=true** which will produce files which do not depend on any other includes and are fully standalone, Byt they do not provide any metadata, thus do not provide any virtual filesystem features. When set to true, then the value of **output_auxiliary** is irelevant as no auxiliary files will be generated. The **include_prefix** is irelevant as well because in standalone mode no includes are used in the files.
 
-When using the generated files in a web-server context, then some files can be pre-compressed, use **-compress_web=true** to enable this feature.
+When using the generated files in a web-server context, then some files can be pre-compressed, use **-compress_web=true** to enable this feature. Use -h to see the list of supported extensions. At the moment only GZIP compression is supported, possibly in the future other compressions might be added.
 
 If the bundled Microchip's copyright is not suitable, then use **-copyright** argument and point to a copyright notice file. The file content will be used as a comment in a C/H files as it is and therefore it needs to have valid syntax. The first line is already indented correctly, but for multiline copyright notices extra attention needs to be made to make sure the syntax and indentation are not broken. 
 
