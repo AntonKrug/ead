@@ -9,7 +9,7 @@ import (
 )
 
 var compressHtmlFlag = flag.Bool("compress_web", false, "compress web related files: html/htm/js/css/xml/json/wasm (disabled by default)")
-var standaloneFiles = flag.Bool("standalone_files", true, "when disabled ead creates metadata and depends on auxiliary files/structures. When enabled it generates more portable/standalone variant of the data without the extra metadata and without auxiliary helpers (disabled by default)")
+var standaloneFiles = flag.Bool("standalone_files", true, "when disabled ead creates metadata and depends on auxiliary files/structures. When enabled it generates more portable/standalone variant of the data without the extra metadata and without auxiliary helpers")
 var timestampFlag = flag.Bool("timestamped_log", true, "enable logger's timestamps")
 var colorsFlag = flag.Bool("colors", false, "enable logger's colors (disabled by default)")
 var outputAuxiliaryFlag = flag.Bool("output_auxiliary", true, "output miscalenialous supporting files, not just raw data")
