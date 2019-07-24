@@ -26,7 +26,7 @@ script:
   - pandoc -v 
   # This is older version of pandoc and requires older arguments https://github.com/typora/typora-issues/issues/2146
   - pandoc README.md --latex-engine=xelatex -o release/README.pdf
-  - ls -la
+  - ls -la release/*.pdf
 
 deploy:
 # Deploy to GitHub Releases page
