@@ -36,6 +36,7 @@ deploy:
     - "release/ead-freebsd-x86-32-$TS"
     - "release/ead-macos-x86-64-$TS"
     - "release/ead-macos-x86-32-$TS"
+    - "README.md"
   skip_cleanup: true
   on:
   # Trigger this deploy action only on the tagged commits
