@@ -28,7 +28,7 @@ If the location of the output files needs to be different then change the **-out
 
 If different auxiliary files are provided or for some other reason they were modified and can't be changed use **-output_auxiliary=false** to disable the auxiliary file generation. Note that the generated files still will produce a metadata structure and will still try to include the structure depend on it to be defined.
 
-If this is too intrusive and only hex-dumps without metadata are needed, then use **-standalone_files=true** which will produce files which do not depend on any other includes and are fully standalone, Byt they do not provide any metadata, thus do not provide any virtual filesystem features.
+If this is too intrusive and only hex-dumps without metadata are needed, then use **-standalone_files=true** which will produce files which do not depend on any other includes and are fully standalone, Byt they do not provide any metadata, thus do not provide any virtual filesystem features. When set to true, then the value of **output_auxiliary** is irelevant as no auxiliary files will be generated. The **include_prefix** is irelevant as well because in standalone mode no includes are used in the files.
 
 When using the generated files in a web-server context, then some files can be pre-compressed, use **-compress_web=true** to enable this feature.
 
