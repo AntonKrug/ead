@@ -7,6 +7,7 @@ go:
 
 before_install:
   # Get pandoc so we can generate PDF from readme markdown
+  # https://askubuntu.com/questions/335495/how-to-convert-markdown-to-pdf-with-word-wrapping/924637#924637
   # https://stackoverflow.com/questions/29201207
   # https://tex.stackexchange.com/questions/75166
   - sudo apt-get install pandoc texlive-xetex texlive-fonts-recommended lmodern
