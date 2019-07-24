@@ -254,7 +254,7 @@ func main() {
 	generateWholeDirectory()
 
 	if *outputAuxiliaryFlag && !*standaloneFiles {
-		log.Println("Generating axialary files, all existing files will not get overriden except the ead_collection.h")
+		log.Println("Generating auxialary files, all existing files will not get overriden except the ead_collection.h")
 		generateAuxialaryFiles()
 	}
 }
