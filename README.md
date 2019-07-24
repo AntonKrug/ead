@@ -32,21 +32,25 @@ If this is too intrusive and only hexdumps without metadata are needed, then use
 
 When using the generated files in a webserver context, then some files can be pre-compressed, use **-compress_web=true** to enable this feature.
 
-If bundled Microchip's copyright is not suitable, then use **-copyright** argument and point to a copyright notice file. The file content will be used as a comment in a C/H files as it is and therefore it needs to have valid syntax. First line is already indented correctly, but for multiline copyright notices a extra attention needs to be made to make sure the syntax and indentation are not broken. 
+If the bundled Microchip's copyright is not suitable, then use **-copyright** argument and point to a copyright notice file. The file content will be used as a comment in a C/H files as it is and therefore it needs to have valid syntax. First line is already indented correctly, but for multiline copyright notices a extra attention needs to be made to make sure the syntax and indentation are not broken. 
 
-For other less significant arguments use **-h** argument to display help.
+For all other arguments use **-h** argument to display help.
 
 # Build EAD
 
 - Install and configure golang https://golang.org/dl/
 - Install the following packates by typing the following: 
-  ```
-  go get github.com/logrusorgru/aurora
-  go get github.com/gabriel-vasile/mimetype
-  go get github.com/hoisie/mustache
-  go get github.com/shurcooL/vfsgen
-  go get github.com/dustin/go-humanize
-  ```
+
+  `go get github.com/logrusorgru/aurora`
+
+  `go get github.com/gabriel-vasile/mimetype`
+
+  `go get github.com/hoisie/mustache`
+
+  `go get github.com/shurcooL/vfsgen`
+
+  `go get github.com/dustin/go-humanize`
+
 - Download this project with `go get github.com/antonkrug/ead` ("undefined: Assets" error is expected as the `go generate` was not run yet)
 - Go into the project:
   - On Windows: `cd %GOPATH%/src/github.com/antonkrug/ead`
@@ -59,5 +63,6 @@ For other less significant arguments use **-h** argument to display help.
 
 Note: If it's required to only corssbuild from Windows to Linux and then copy it into a shared VM folder then the following can be used:
 ```
-GOOS=linux GOARCH=amd64 go build -o release/ead-linux-x86-64 && cp release/ead-linux-x86-64 /d/VMs/_shared_folder/ead
+GOOS=linux GOARCH=amd64 go build -o release/ead-linux-x86-64
+cp release/ead-linux-x86-64 /d/VMs/_shared_folder/ead
 ```
