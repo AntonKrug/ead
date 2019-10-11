@@ -25,7 +25,7 @@ script:
   - bash ./build_all_platforms.sh
   - pandoc -v 
   # This is older version of pandoc and requires older arguments https://github.com/typora/typora-issues/issues/2146
-  - pandoc README.md --latex-engine=xelatex -o release/README.pdf
+  - pandoc README.md --latex-engine=xelatex -V geometry:"top=1cm, left=1cm, right=1cm, bottom=2.5cm" -o release/README.pdf
   - ls -la release/*.pdf
 
 deploy:
